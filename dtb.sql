@@ -2,17 +2,24 @@ use selloldshop;
 
 create table users(
                       usersId int primary key auto_increment,
-                      usersName nvarchar(300) not null ,
+                      usersName nvarchar(300) not null unique ,
                       usersPassWord text not null ,
-                      userEmail text not null ,
-                      userPhone int not null ,
+                      userEmail nvarchar(200) not null unique ,
+                      userPhone nvarchar(200) not null ,
                       userCompany text not null ,
                       billingAddress text not null,
                       shippingAdress text not null ,
-                      permission int default 0 ,
+
                       userStatus bit default 1
 );
 
+create table roles(
+                      rolesId int primary key auto_increment,
+                      rolesName nvarchar(200) not null ,
+                      usersId int not null ,
+                      foreign key (usersId) references  users(usersId)
+
+);
 create table catalog(
                         catalogId int primary key auto_increment,
                         catalogName nvarchar(300) not null,
@@ -78,7 +85,7 @@ create  table productDetails(
                                 foreign key (sizeId) references size(sizeId),
                                 colorId int not null ,
                                 foreign key (colorId) references color(colorId),
-                                priceProductDetails double not null ,
+
                                 quantity int not null ,
                                 productDetailsStatus int default 0
 );
